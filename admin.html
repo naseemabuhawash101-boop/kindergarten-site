@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة الإدارة</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Tajawal', Arial, sans-serif;
+      background: #f8fafc;
+    }
+    .hero-gradient {
+      background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
+    }
+    .tab-btn.active {
+      background: #1e3a8a;
+      color: white;
+      border-color: #1e3a8a;
+    }
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-right">
+
+  <header class="bg-white shadow-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col lg:flex-row items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold text-blue-900">لوحة الإدارة الخاصة بك</h1>
+        <p class="text-sm text-gray-600">إدارة الروضات والصفحات من مكان واحد</p>
+      </div>
+
+      <div class="flex flex-wrap gap-3">
+        <a href="index.html" class="bg-gray-200 text-gray-800 px-5 py-2 rounded-full font-medium hover:bg-gray-300">
+          العودة للموقع
+        </a>
+        <button id="refreshBtn" class="bg-blue-900 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-800">
+          تحديث
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-gradient text-white py-12 md:py-16">
+    <div class="max-w-5xl mx-auto px-4 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-4">لوحة التحكم الرئيسية</h2>
+      <p class="text-lg md:text-xl opacity-90 leading-9">
+        من هنا تدير الروضات، صفحات كل روضة، والتمارين لاحقًا
+      </p>
+      <p id="topStatus" class="mt-4 text-sm font-medium text-gray-200">
+        جاري تحميل البيانات...
+      </p>
+    </div>
+  </section>
+
+  <section class="py-8">
+    <div class="max-w-7xl mx-auto px-4">
+
+      <div class="bg-white rounded-2xl shadow-lg p-4 border border-gray-100 mb-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <button class="tab-btn active px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="kgs">
+            إدارة الروضات
+          </button>
+          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="pages">
+            صفحات الروضة
+          </button>
+          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="preview">
+            معاينة سريعة
+          </button>
+          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="settings">
+            الإعدادات
+          </button>
+        </div>
+      </div>
+
+      <!-- إدارة الروضات -->
+      <div id="tab-kgs" class="tab-panel active space-y-6">
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <h3 class="text-2xl font-bold text-blue-900 mb-5">إضافة روضة جديدة</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <input id="kgName" type="text" placeholder="اسم الروضة" class="px-4 py-3 rounded-xl border border-gray-300">
+            <input id="kgId" type="text" placeholder="المعرف مثل kg2" class="px-4 py-3 rounded-xl border border-gray-300">
+            <input id="kgSlug" type="text" placeholder="الرابط المختصر مثل rawdat-alamal-2" class="px-4 py-3 rounded-xl border border-gray-300">
+            <select id="kgActive" class="px-4 py-3 rounded-xl border border-gray-300">
+              <option value="true">مفعلة</option>
+              <option value="false">غير مفعلة</option>
+            </select>
+          </div>
+
+          <div class="mt-4 flex gap-3">
+            <button id="addKgBtn" class="bg-blue-900 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-800">
+              حفظ الروضة
+            </button>
+          </div>
+
+          <p id="kgMsg" class="mt-4 text-sm font-medium text-gray-700"></p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <h3 class="text-2xl font-bold text-blue-900 mb-5">قائمة الروضات</h3>
+          <div id="kindergartensList" class="space-y-4"></div>
+        </div>
+      </div>
+
+      <!-- صفحات الروضة -->
+      <div id="tab-pages" class="tab-panel space-y-6">
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <h3 class="text-2xl font-bold text-blue-900 mb-5">إضافة صفحة لروضة</h3>
+
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <select id="pageKgSelect" class="px-4 py-3 rounded-xl border border-gray-300"></select>
+            <input id="pageDocId" type="text" placeholder="Document ID مثل kg1_news" class="px-4 py-3 rounded-xl border border-gray-300">
+            <input id="pageKey" type="text" placeholder="pageKey مثل news" class="px-4 py-3 rounded-xl border border-gray-300">
+            <input id="pageTitle" type="text" placeholder="عنوان الصفحة" class="px-4 py-3 rounded-xl border border-gray-300">
+            <input id="pageSortOrder" type="number" placeholder="الترتيب" class="px-4 py-3 rounded-xl border border-gray-300">
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <select id="pageType" class="px-4 py-3 rounded-xl border border-gray-300">
+              <option value="content">content</option>
+              <option value="exercise_list">exercise_list</option>
+              <option value="results">results</option>
+            </select>
+
+            <select id="pageActive" class="px-4 py-3 rounded-xl border border-gray-300">
+              <option value="true">مفعلة</option>
+              <option value="false">غير مفعلة</option>
+            </select>
+          </div>
+
+          <textarea id="pageContent" rows="6" placeholder="محتوى الصفحة" class="w-full mt-4 px-4 py-3 rounded-xl border border-gray-300"></textarea>
+
+          <div class="mt-4 flex gap-3">
+            <button id="addPageBtn" class="bg-green-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-700">
+              حفظ الصفحة
+            </button>
+          </div>
+
+          <p id="pageMsg" class="mt-4 text-sm font-medium text-gray-700"></p>
+        </div>
+
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-5">
+            <h3 class="text-2xl font-bold text-blue-900">صفحات الروضة المختارة</h3>
+            <select id="filterPagesKg" class="px-4 py-2 rounded-xl border border-gray-300"></select>
+          </div>
+
+          <div id="pagesList" class="space-y-4"></div>
+        </div>
+      </div>
+
+      <!-- معاينة -->
+      <div id="tab-preview" class="tab-panel space-y-6">
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <h3 class="text-2xl font-bold text-blue-900 mb-5">معاينة الروابط</h3>
+          <div id="previewLinks" class="space-y-3 text-blue-800 font-medium"></div>
+        </div>
+      </div>
+
+      <!-- إعدادات -->
+      <div id="tab-settings" class="tab-panel space-y-6">
+        <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+          <h3 class="text-2xl font-bold text-blue-900 mb-5">ملاحظات</h3>
+          <ul class="list-disc pr-6 space-y-2 text-gray-700">
+            <li>هذه أول نسخة من لوحة الإدارة.</li>
+            <li>الخطوة التالية بعدها: حماية الدخول وتخصيص الصلاحيات.</li>
+            <li>بعدها نضيف إدارة التمارين التفاعلية.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      doc,
+      setDoc,
+      updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDc7oMkTNbVhv4DdvzHDwr-be6ABX5PD1o",
+      authDomain: "kindergarten-platform-ae4ff.firebaseapp.com",
+      projectId: "kindergarten-platform-ae4ff",
+      storageBucket: "kindergarten-platform-ae4ff.appspot.com",
+      messagingSenderId: "519219144872",
+      appId: "1:519219144872:web:b1cf7c80e25267ae58fa9d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const topStatus = document.getElementById("topStatus");
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    const kgName = document.getElementById("kgName");
+    const kgId = document.getElementById("kgId");
+    const kgSlug = document.getElementById("kgSlug");
+    const kgActive = document.getElementById("kgActive");
+    const addKgBtn = document.getElementById("addKgBtn");
+    const kgMsg = document.getElementById("kgMsg");
+    const kindergartensList = document.getElementById("kindergartensList");
+
+    const pageKgSelect = document.getElementById("pageKgSelect");
+    const pageDocId = document.getElementById("pageDocId");
+    const pageKey = document.getElementById("pageKey");
+    const pageTitle = document.getElementById("pageTitle");
+    const pageSortOrder = document.getElementById("pageSortOrder");
+    const pageType = document.getElementById("pageType");
+    const pageActive = document.getElementById("pageActive");
+    const pageContent = document.getElementById("pageContent");
+    const addPageBtn = document.getElementById("addPageBtn");
+    const pageMsg = document.getElementById("pageMsg");
+    const pagesList = document.getElementById("pagesList");
+    const filterPagesKg = document.getElementById("filterPagesKg");
+    const previewLinks = document.getElementById("previewLinks");
+
+    let kindergartensCache = [];
+    let pagesCache = [];
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
+      });
+    });
+
+    refreshBtn.addEventListener('click', loadAll);
+
+    addKgBtn.addEventListener('click', addKindergarten);
+    addPageBtn.addEventListener('click', addPage);
+    filterPagesKg.addEventListener('change', renderPagesList);
+
+    async function loadAll() {
+      topStatus.textContent = 'جاري تحميل البيانات...';
+      await loadKindergartens();
+      await loadPages();
+      renderPreviewLinks();
+      topStatus.textContent = 'تم تحميل البيانات بنجاح';
+    }
+
+    async function loadKindergartens() {
+      const snap = await getDocs(collection(db, "kindergartens"));
+      kindergartensCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+      renderKindergartens();
+      fillKindergartenSelects();
+    }
+
+    async function loadPages() {
+      const snap = await getDocs(collection(db, "kindergarten_pages"));
+      pagesCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderPagesList();
+    }
+
+    function fillKindergartenSelects() {
+      const options = kindergartensCache.map(kg => `
+        <option value="${kg.id}">${kg.name || kg.id}</option>
+      `).join("");
+
+      pageKgSelect.innerHTML = options;
+      filterPagesKg.innerHTML = `<option value="">كل الروضات</option>` + options;
+    }
+
+    function renderKindergartens() {
+      if (!kindergartensCache.length) {
+        kindergartensList.innerHTML = `<p class="text-gray-500">لا توجد روضات بعد</p>`;
+        return;
+      }
+
+      kindergartensList.innerHTML = kindergartensCache.map(kg => `
+        <div class="border border-gray-200 rounded-2xl p-5 flex flex-col md:flex-row justify-between gap-4">
+          <div>
+            <h4 class="text-xl font-bold text-blue-900">${kg.name || "بدون اسم"}</h4>
+            <p class="text-gray-600">المعرف: ${kg.id}</p>
+            <p class="text-gray-600">الرابط المختصر: ${kg.slug || "-"}</p>
+            <p class="text-gray-600">الحالة: ${kg.isActive ? "مفعلة" : "غير مفعلة"}</p>
+          </div>
+          <div class="flex gap-2 items-start">
+            <button onclick="toggleKindergarten('${kg.id}', ${kg.isActive ? 'false' : 'true'})"
+              class="px-4 py-2 rounded-xl ${kg.isActive ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}">
+              ${kg.isActive ? 'تعطيل' : 'تفعيل'}
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderPagesList() {
+      const filterValue = filterPagesKg.value;
+      const filtered = filterValue
+        ? pagesCache.filter(p => p.kindergartenId === filterValue)
+        : pagesCache;
+
+      if (!filtered.length) {
+        pagesList.innerHTML = `<p class="text-gray-500">لا توجد صفحات</p>`;
+        return;
+      }
+
+      pagesList.innerHTML = filtered.map(page => `
+        <div class="border border-gray-200 rounded-2xl p-5">
+          <h4 class="text-lg font-bold text-blue-900">${page.title || "بدون عنوان"}</h4>
+          <p class="text-gray-600">Document ID: ${page.id}</p>
+          <p class="text-gray-600">الروضة: ${page.kindergartenId || "-"}</p>
+          <p class="text-gray-600">pageKey: ${page.pageKey || "-"}</p>
+          <p class="text-gray-600">pageType: ${page.pageType || "-"}</p>
+          <p class="text-gray-600">الحالة: ${page.isActive ? "مفعلة" : "غير مفعلة"}</p>
+          <div class="mt-3 p-3 bg-gray-50 rounded-xl text-gray-700">${page.content || "لا يوجد محتوى"}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderPreviewLinks() {
+      if (!kindergartensCache.length) {
+        previewLinks.innerHTML = `<p class="text-gray-500">لا توجد روابط للمعاينة</p>`;
+        return;
+      }
+
+      previewLinks.innerHTML = kindergartensCache.map(kg => `
+        <div class="p-4 rounded-xl border border-gray-200">
+          <div class="font-bold mb-2">${kg.name}</div>
+          <div class="text-sm text-gray-700">الرابط الحالي لاحقًا سيكون مثل:</div>
+          <div class="mt-2">${location.origin}${location.pathname.replace('admin.html', 'index.html')}?kg=${kg.id}</div>
+        </div>
+      `).join("");
+    }
+
+    async function addKindergarten() {
+      const id = kgId.value.trim();
+      const name = kgName.value.trim();
+      const slug = kgSlug.value.trim();
+
+      if (!id || !name || !slug) {
+        kgMsg.textContent = 'عبّي اسم الروضة والمعرف والرابط المختصر';
+        return;
+      }
+
+      try {
+        await setDoc(doc(db, "kindergartens", id), {
+          name,
+          slug,
+          templateId: "default_template",
+          isActive: kgActive.value === "true"
+        });
+
+        kgMsg.textContent = 'تم حفظ الروضة بنجاح';
+        kgName.value = "";
+        kgId.value = "";
+        kgSlug.value = "";
+        await loadAll();
+      } catch (error) {
+        console.error(error);
+        kgMsg.textContent = 'حدث خطأ أثناء حفظ الروضة';
+      }
+    }
+
+    async function addPage() {
+      const documentId = pageDocId.value.trim();
+      const kindergartenId = pageKgSelect.value;
+      const key = pageKey.value.trim();
+      const title = pageTitle.value.trim();
+
+      if (!documentId || !kindergartenId || !key || !title) {
+        pageMsg.textContent = 'عبّي كل الحقول الأساسية';
+        return;
+      }
+
+      try {
+        await setDoc(doc(db, "kindergarten_pages", documentId), {
+          kindergartenId,
+          pageKey: key,
+          title,
+          pageType: pageType.value,
+          sortOrder: Number(pageSortOrder.value || 1),
+          isActive: pageActive.value === "true",
+          content: pageContent.value.trim()
+        });
+
+        pageMsg.textContent = 'تم حفظ الصفحة بنجاح';
+
+        pageDocId.value = "";
+        pageKey.value = "";
+        pageTitle.value = "";
+        pageSortOrder.value = "";
+        pageContent.value = "";
+
+        await loadPages();
+      } catch (error) {
+        console.error(error);
+        pageMsg.textContent = 'حدث خطأ أثناء حفظ الصفحة';
+      }
+    }
+
+    window.toggleKindergarten = async function(id, nextValue) {
+      try {
+        await updateDoc(doc(db, "kindergartens", id), {
+          isActive: nextValue
+        });
+        await loadKindergartens();
+        renderPreviewLinks();
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadAll();
+  </script>
+</body>
+</html>
