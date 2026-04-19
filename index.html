@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>موقع الروضة</title>
+
+  <style>
+    body {
+      font-family: Arial;
+      background: #f5f5f5;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .box {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .nav a {
+      margin: 0 10px;
+      cursor: pointer;
+      color: blue;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .nav {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h1 id="kg-name">...</h1>
+  <h3 id="page-title">...</h3>
+  <div id="content">...</div>
+
+  <div class="nav">
+    <a onclick="loadPage('home')">الرئيسية</a>
+    <a onclick="loadPage('activities')">الأنشطة</a>
+    <a onclick="loadPage('results')">النتائج</a>
+    <a onclick="loadPage('gallery')">معرض الأعمال</a>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDc7oMkTNbVhv4DdvzHDwr-be6ABX5PD1o",
+  authDomain: "kindergarten-platform-ae4ff.firebaseapp.com",
+  projectId: "kindergarten-platform-ae4ff",
+  storageBucket: "kindergarten-platform-ae4ff.appspot.com",
+  messagingSenderId: "519219144872",
+  appId: "1:519219144872:web:b1cf7c80e25267ae58fa9d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const kgName = document.getElementById("kg-name");
+const pageTitle = document.getElementById("page-title");
+const content = document.getElementById("content");
+
+// تحميل اسم الروضة مرة وحدة
+async function loadKindergarten() {
+  const snap = await getDoc(doc(db, "kindergartens", "kg1"));
+  if (snap.exists()) {
+    kgName.textContent = snap.data().name;
+  }
+}
+
+// تحميل أي صفحة
+window.loadPage = async function(pageKey) {
+  try {
+    const pageId = "kg1_" + pageKey;
+    const snap = await getDoc(doc(db, "kindergarten_pages", pageId));
+
+    if (!snap.exists()) {
+      pageTitle.textContent = "خطأ";
+      content.textContent = "الصفحة غير موجودة";
+      return;
+    }
+
+    const data = snap.data();
+
+    pageTitle.textContent = data.title || "بدون عنوان";
+    content.innerHTML = data.content || "لا يوجد محتوى";
+
+  } catch (e) {
+    console.error(e);
+    content.textContent = "حدث خطأ";
+  }
+};
+
+// أول تحميل
+loadKindergarten();
+loadPage("home");
+
+</script>
+
+</body>
+</html>
