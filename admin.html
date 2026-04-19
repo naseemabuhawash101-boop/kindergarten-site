@@ -9,24 +9,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: 'Tajawal', Arial, sans-serif;
-      background: #f8fafc;
-    }
-    .hero-gradient {
-      background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%);
-    }
-    .tab-btn.active {
-      background: #1e3a8a;
-      color: white;
-      border-color: #1e3a8a;
-    }
-    .tab-panel {
-      display: none;
-    }
-    .tab-panel.active {
-      display: block;
-    }
+    body { font-family: 'Tajawal', Arial, sans-serif; background: #f8fafc; }
+    .hero-gradient { background: linear-gradient(135deg, #1a365d 0%, #2d3748 100%); }
+    .tab-btn.active { background: #1e3a8a; color: white; border-color: #1e3a8a; }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
   </style>
 </head>
 <body class="min-h-screen text-right">
@@ -35,7 +22,7 @@
     <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col lg:flex-row items-center justify-between gap-4">
       <div>
         <h1 class="text-2xl font-bold text-blue-900">لوحة الإدارة الخاصة بك</h1>
-        <p class="text-sm text-gray-600">إدارة الروضات والصفحات من مكان واحد</p>
+        <p class="text-sm text-gray-600">إدارة الروضات والصفحات والتمارين من مكان واحد</p>
       </div>
 
       <div class="flex flex-wrap gap-3">
@@ -52,12 +39,8 @@
   <section class="hero-gradient text-white py-12 md:py-16">
     <div class="max-w-5xl mx-auto px-4 text-center">
       <h2 class="text-4xl md:text-5xl font-bold mb-4">لوحة التحكم الرئيسية</h2>
-      <p class="text-lg md:text-xl opacity-90 leading-9">
-        من هنا تدير الروضات، صفحات كل روضة، والتمارين لاحقًا
-      </p>
-      <p id="topStatus" class="mt-4 text-sm font-medium text-gray-200">
-        جاري تحميل البيانات...
-      </p>
+      <p class="text-lg md:text-xl opacity-90 leading-9">من هنا تدير الروضات وصفحاتها وتمارينها التفاعلية</p>
+      <p id="topStatus" class="mt-4 text-sm font-medium text-gray-200">جاري تحميل البيانات...</p>
     </div>
   </section>
 
@@ -65,23 +48,16 @@
     <div class="max-w-7xl mx-auto px-4">
 
       <div class="bg-white rounded-2xl shadow-lg p-4 border border-gray-100 mb-6">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <button class="tab-btn active px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="kgs">
-            إدارة الروضات
-          </button>
-          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="pages">
-            صفحات الروضة
-          </button>
-          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="preview">
-            معاينة سريعة
-          </button>
-          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="settings">
-            الإعدادات
-          </button>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <button class="tab-btn active px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="kgs">إدارة الروضات</button>
+          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="pages">الصفحات</button>
+          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="exercises">التمارين</button>
+          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="preview">معاينة</button>
+          <button class="tab-btn px-4 py-3 rounded-xl border border-gray-300 font-bold" data-tab="settings">ملاحظات</button>
         </div>
       </div>
 
-      <!-- إدارة الروضات -->
+      <!-- الروضات -->
       <div id="tab-kgs" class="tab-panel active space-y-6">
         <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
           <h3 class="text-2xl font-bold text-blue-900 mb-5">إضافة روضة جديدة</h3>
@@ -89,17 +65,15 @@
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <input id="kgName" type="text" placeholder="اسم الروضة" class="px-4 py-3 rounded-xl border border-gray-300">
             <input id="kgId" type="text" placeholder="المعرف مثل kg2" class="px-4 py-3 rounded-xl border border-gray-300">
-            <input id="kgSlug" type="text" placeholder="الرابط المختصر مثل rawdat-alamal-2" class="px-4 py-3 rounded-xl border border-gray-300">
+            <input id="kgSlug" type="text" placeholder="الرابط المختصر" class="px-4 py-3 rounded-xl border border-gray-300">
             <select id="kgActive" class="px-4 py-3 rounded-xl border border-gray-300">
               <option value="true">مفعلة</option>
               <option value="false">غير مفعلة</option>
             </select>
           </div>
 
-          <div class="mt-4 flex gap-3">
-            <button id="addKgBtn" class="bg-blue-900 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-800">
-              حفظ الروضة
-            </button>
+          <div class="mt-4">
+            <button id="addKgBtn" class="bg-blue-900 text-white px-6 py-3 rounded-xl font-medium hover:bg-blue-800">حفظ الروضة</button>
           </div>
 
           <p id="kgMsg" class="mt-4 text-sm font-medium text-gray-700"></p>
@@ -111,15 +85,15 @@
         </div>
       </div>
 
-      <!-- صفحات الروضة -->
+      <!-- الصفحات -->
       <div id="tab-pages" class="tab-panel space-y-6">
         <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
           <h3 class="text-2xl font-bold text-blue-900 mb-5">إضافة صفحة لروضة</h3>
 
           <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
             <select id="pageKgSelect" class="px-4 py-3 rounded-xl border border-gray-300"></select>
-            <input id="pageDocId" type="text" placeholder="Document ID مثل kg1_news" class="px-4 py-3 rounded-xl border border-gray-300">
-            <input id="pageKey" type="text" placeholder="pageKey مثل news" class="px-4 py-3 rounded-xl border border-gray-300">
+            <input id="pageDocId" type="text" placeholder="Document ID مثل kg1_home" class="px-4 py-3 rounded-xl border border-gray-300">
+            <input id="pageKey" type="text" placeholder="pageKey مثل home" class="px-4 py-3 rounded-xl border border-gray-300">
             <input id="pageTitle" type="text" placeholder="عنوان الصفحة" class="px-4 py-3 rounded-xl border border-gray-300">
             <input id="pageSortOrder" type="number" placeholder="الترتيب" class="px-4 py-3 rounded-xl border border-gray-300">
           </div>
@@ -139,10 +113,8 @@
 
           <textarea id="pageContent" rows="6" placeholder="محتوى الصفحة" class="w-full mt-4 px-4 py-3 rounded-xl border border-gray-300"></textarea>
 
-          <div class="mt-4 flex gap-3">
-            <button id="addPageBtn" class="bg-green-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-700">
-              حفظ الصفحة
-            </button>
+          <div class="mt-4">
+            <button id="addPageBtn" class="bg-green-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-green-700">حفظ الصفحة</button>
           </div>
 
           <p id="pageMsg" class="mt-4 text-sm font-medium text-gray-700"></p>
@@ -150,15 +122,80 @@
 
         <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
           <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-5">
-            <h3 class="text-2xl font-bold text-blue-900">صفحات الروضة المختارة</h3>
+            <h3 class="text-2xl font-bold text-blue-900">صفحات الروضة</h3>
             <select id="filterPagesKg" class="px-4 py-2 rounded-xl border border-gray-300"></select>
           </div>
-
           <div id="pagesList" class="space-y-4"></div>
         </div>
       </div>
 
-      <!-- معاينة -->
+      <!-- التمارين -->
+      <div id="tab-exercises" class="tab-panel space-y-6">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div class="xl:col-span-1">
+            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <h3 class="text-2xl font-bold text-blue-900 mb-5">إضافة تمرين تفاعلي</h3>
+
+              <div class="space-y-4">
+                <select id="exerciseKgSelect" class="w-full px-4 py-3 rounded-xl border border-gray-300"></select>
+
+                <select id="exerciseStage" class="w-full px-4 py-3 rounded-xl border border-gray-300">
+                  <option value="">اختر المرحلة</option>
+                  <option value="tamheedi">التمهيدي</option>
+                  <option value="tahdiri">التحضيري</option>
+                </select>
+
+                <select id="exerciseSubject" class="w-full px-4 py-3 rounded-xl border border-gray-300">
+                  <option value="">اختر المادة</option>
+                  <option value="arabic">العربي</option>
+                  <option value="math">الرياضيات</option>
+                  <option value="english">الإنجليزي</option>
+                </select>
+
+                <input id="exercisePageNumber" type="number" min="1" placeholder="رقم الصفحة" class="w-full px-4 py-3 rounded-xl border border-gray-300">
+                <input id="exerciseTitle" type="text" placeholder="عنوان التمرين" class="w-full px-4 py-3 rounded-xl border border-gray-300">
+                <input id="exerciseSortOrder" type="number" min="1" placeholder="الترتيب" class="w-full px-4 py-3 rounded-xl border border-gray-300">
+
+                <select id="exerciseActive" class="w-full px-4 py-3 rounded-xl border border-gray-300">
+                  <option value="true">مفعل</option>
+                  <option value="false">غير مفعل</option>
+                </select>
+
+                <textarea id="exerciseCode" rows="12" placeholder="الصق هنا كود التمرين..." class="w-full px-4 py-3 rounded-xl border border-gray-300 font-mono text-sm"></textarea>
+
+                <div class="grid grid-cols-2 gap-3">
+                  <button id="saveExerciseBtn" class="bg-blue-900 text-white px-5 py-3 rounded-xl font-medium hover:bg-blue-800">حفظ التمرين</button>
+                  <button id="clearExerciseBtn" class="bg-gray-200 text-gray-800 px-5 py-3 rounded-xl font-medium hover:bg-gray-300">تفريغ</button>
+                </div>
+
+                <p id="exerciseMsg" class="text-sm font-medium text-center text-gray-600"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="xl:col-span-2 space-y-6">
+            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-5">
+                <h3 class="text-2xl font-bold text-blue-900">التمارين المحفوظة</h3>
+                <select id="filterExercisesKg" class="px-4 py-2 rounded-xl border border-gray-300"></select>
+              </div>
+
+              <div id="exercisesList" class="space-y-4"></div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
+              <h3 class="text-2xl font-bold text-blue-900 mb-4">ملاحظة</h3>
+              <p class="text-gray-700 leading-8">
+                كل تمرين يُحفظ الآن داخل
+                <strong>interactive_exercises</strong>
+                ومربوط بروضة محددة ومرحلة ومادة ورقم صفحة.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- المعاينة -->
       <div id="tab-preview" class="tab-panel space-y-6">
         <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
           <h3 class="text-2xl font-bold text-blue-900 mb-5">معاينة الروابط</h3>
@@ -166,14 +203,13 @@
         </div>
       </div>
 
-      <!-- إعدادات -->
+      <!-- الملاحظات -->
       <div id="tab-settings" class="tab-panel space-y-6">
         <div class="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
           <h3 class="text-2xl font-bold text-blue-900 mb-5">ملاحظات</h3>
           <ul class="list-disc pr-6 space-y-2 text-gray-700">
-            <li>هذه أول نسخة من لوحة الإدارة.</li>
-            <li>الخطوة التالية بعدها: حماية الدخول وتخصيص الصلاحيات.</li>
-            <li>بعدها نضيف إدارة التمارين التفاعلية.</li>
+            <li>الخطوة التالية: حماية الدخول.</li>
+            <li>بعدها: ربط عرض التمرين داخل صفحة الأنشطة.</li>
           </ul>
         </div>
       </div>
@@ -189,7 +225,8 @@
       getDocs,
       doc,
       setDoc,
-      updateDoc
+      updateDoc,
+      deleteDoc
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -229,30 +266,58 @@
     const filterPagesKg = document.getElementById("filterPagesKg");
     const previewLinks = document.getElementById("previewLinks");
 
+    const exerciseKgSelect = document.getElementById("exerciseKgSelect");
+    const exerciseStage = document.getElementById("exerciseStage");
+    const exerciseSubject = document.getElementById("exerciseSubject");
+    const exercisePageNumber = document.getElementById("exercisePageNumber");
+    const exerciseTitle = document.getElementById("exerciseTitle");
+    const exerciseSortOrder = document.getElementById("exerciseSortOrder");
+    const exerciseActive = document.getElementById("exerciseActive");
+    const exerciseCode = document.getElementById("exerciseCode");
+    const saveExerciseBtn = document.getElementById("saveExerciseBtn");
+    const clearExerciseBtn = document.getElementById("clearExerciseBtn");
+    const exerciseMsg = document.getElementById("exerciseMsg");
+    const exercisesList = document.getElementById("exercisesList");
+    const filterExercisesKg = document.getElementById("filterExercisesKg");
+
     let kindergartensCache = [];
     let pagesCache = [];
+    let exercisesCache = [];
 
-    // Tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-
         btn.classList.add('active');
         document.getElementById(`tab-${btn.dataset.tab}`).classList.add('active');
       });
     });
 
     refreshBtn.addEventListener('click', loadAll);
-
     addKgBtn.addEventListener('click', addKindergarten);
     addPageBtn.addEventListener('click', addPage);
     filterPagesKg.addEventListener('change', renderPagesList);
+    filterExercisesKg.addEventListener('change', renderExercisesList);
+    saveExerciseBtn.addEventListener('click', saveExercise);
+    clearExerciseBtn.addEventListener('click', clearExerciseForm);
+
+    function exerciseDocId(kindergartenId, stage, subject, pageNumber) {
+      return `${kindergartenId}__${stage}__${subject}__p${String(pageNumber).padStart(2, "0")}`;
+    }
+
+    function stageLabel(v) {
+      return v === "tamheedi" ? "التمهيدي" : v === "tahdiri" ? "التحضيري" : v || "-";
+    }
+
+    function subjectLabel(v) {
+      return v === "math" ? "الرياضيات" : v === "arabic" ? "العربي" : v === "english" ? "الإنجليزي" : v || "-";
+    }
 
     async function loadAll() {
       topStatus.textContent = 'جاري تحميل البيانات...';
       await loadKindergartens();
       await loadPages();
+      await loadExercises();
       renderPreviewLinks();
       topStatus.textContent = 'تم تحميل البيانات بنجاح';
     }
@@ -260,7 +325,6 @@
     async function loadKindergartens() {
       const snap = await getDocs(collection(db, "kindergartens"));
       kindergartensCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-
       renderKindergartens();
       fillKindergartenSelects();
     }
@@ -271,13 +335,18 @@
       renderPagesList();
     }
 
-    function fillKindergartenSelects() {
-      const options = kindergartensCache.map(kg => `
-        <option value="${kg.id}">${kg.name || kg.id}</option>
-      `).join("");
+    async function loadExercises() {
+      const snap = await getDocs(collection(db, "interactive_exercises"));
+      exercisesCache = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderExercisesList();
+    }
 
+    function fillKindergartenSelects() {
+      const options = kindergartensCache.map(kg => `<option value="${kg.id}">${kg.name || kg.id}</option>`).join("");
       pageKgSelect.innerHTML = options;
+      exerciseKgSelect.innerHTML = options;
       filterPagesKg.innerHTML = `<option value="">كل الروضات</option>` + options;
+      filterExercisesKg.innerHTML = `<option value="">كل الروضات</option>` + options;
     }
 
     function renderKindergartens() {
@@ -306,9 +375,7 @@
 
     function renderPagesList() {
       const filterValue = filterPagesKg.value;
-      const filtered = filterValue
-        ? pagesCache.filter(p => p.kindergartenId === filterValue)
-        : pagesCache;
+      const filtered = filterValue ? pagesCache.filter(p => p.kindergartenId === filterValue) : pagesCache;
 
       if (!filtered.length) {
         pagesList.innerHTML = `<p class="text-gray-500">لا توجد صفحات</p>`;
@@ -322,10 +389,46 @@
           <p class="text-gray-600">الروضة: ${page.kindergartenId || "-"}</p>
           <p class="text-gray-600">pageKey: ${page.pageKey || "-"}</p>
           <p class="text-gray-600">pageType: ${page.pageType || "-"}</p>
-          <p class="text-gray-600">الحالة: ${page.isActive ? "مفعلة" : "غير مفعلة"}</p>
           <div class="mt-3 p-3 bg-gray-50 rounded-xl text-gray-700">${page.content || "لا يوجد محتوى"}</div>
         </div>
       `).join("");
+    }
+
+    function renderExercisesList() {
+      const filterValue = filterExercisesKg.value;
+      const filtered = filterValue ? exercisesCache.filter(e => e.kindergartenId === filterValue) : exercisesCache;
+
+      if (!filtered.length) {
+        exercisesList.innerHTML = `<p class="text-gray-500">لا توجد تمارين محفوظة</p>`;
+        return;
+      }
+
+      exercisesList.innerHTML = filtered
+        .sort((a, b) => Number(a.pageNumber || 0) - Number(b.pageNumber || 0))
+        .map(ex => `
+          <div class="border border-gray-200 rounded-2xl p-5">
+            <div class="flex flex-col md:flex-row justify-between gap-4">
+              <div>
+                <h4 class="text-lg font-bold text-blue-900">${ex.title || "بدون عنوان"}</h4>
+                <p class="text-gray-600">Document ID: ${ex.id}</p>
+                <p class="text-gray-600">الروضة: ${ex.kindergartenId}</p>
+                <p class="text-gray-600">المرحلة: ${stageLabel(ex.stage)}</p>
+                <p class="text-gray-600">المادة: ${subjectLabel(ex.subject)}</p>
+                <p class="text-gray-600">رقم الصفحة: ${ex.pageNumber || "-"}</p>
+                <p class="text-gray-600">الحالة: ${ex.isActive ? "مفعل" : "غير مفعل"}</p>
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <button onclick="editExercise('${ex.id}')" class="px-4 py-2 rounded-xl bg-blue-900 text-white hover:bg-blue-800">فتح</button>
+                <button onclick="deleteExercise('${ex.id}')" class="px-4 py-2 rounded-xl bg-red-600 text-white hover:bg-red-700">حذف</button>
+              </div>
+            </div>
+
+            <div class="mt-4 p-3 bg-gray-50 rounded-xl text-gray-700 overflow-x-auto">
+              <pre class="whitespace-pre-wrap text-xs">${escapeHtml(ex.code || "")}</pre>
+            </div>
+          </div>
+        `).join("");
     }
 
     function renderPreviewLinks() {
@@ -337,10 +440,18 @@
       previewLinks.innerHTML = kindergartensCache.map(kg => `
         <div class="p-4 rounded-xl border border-gray-200">
           <div class="font-bold mb-2">${kg.name}</div>
-          <div class="text-sm text-gray-700">الرابط الحالي لاحقًا سيكون مثل:</div>
           <div class="mt-2">${location.origin}${location.pathname.replace('admin.html', 'index.html')}?kg=${kg.id}</div>
         </div>
       `).join("");
+    }
+
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
     async function addKindergarten() {
@@ -395,19 +506,97 @@
         });
 
         pageMsg.textContent = 'تم حفظ الصفحة بنجاح';
-
         pageDocId.value = "";
         pageKey.value = "";
         pageTitle.value = "";
         pageSortOrder.value = "";
         pageContent.value = "";
-
         await loadPages();
       } catch (error) {
         console.error(error);
         pageMsg.textContent = 'حدث خطأ أثناء حفظ الصفحة';
       }
     }
+
+    async function saveExercise() {
+      const kindergartenId = exerciseKgSelect.value;
+      const stage = exerciseStage.value;
+      const subject = exerciseSubject.value;
+      const pageNumber = exercisePageNumber.value.trim();
+      const title = exerciseTitle.value.trim();
+      const code = exerciseCode.value;
+
+      if (!kindergartenId || !stage || !subject || !pageNumber || !title || !code.trim()) {
+        exerciseMsg.textContent = 'عبّي الروضة والمرحلة والمادة ورقم الصفحة والعنوان والكود';
+        exerciseMsg.className = 'text-sm font-medium text-center text-red-600';
+        return;
+      }
+
+      try {
+        const id = exerciseDocId(kindergartenId, stage, subject, pageNumber);
+
+        await setDoc(doc(db, "interactive_exercises", id), {
+          kindergartenId,
+          stage,
+          subject,
+          pageNumber: Number(pageNumber),
+          title,
+          code,
+          isActive: exerciseActive.value === "true",
+          sortOrder: Number(exerciseSortOrder.value || 1)
+        });
+
+        exerciseMsg.textContent = 'تم حفظ التمرين بنجاح';
+        exerciseMsg.className = 'text-sm font-medium text-center text-green-600';
+        await loadExercises();
+      } catch (error) {
+        console.error(error);
+        exerciseMsg.textContent = 'حدث خطأ أثناء حفظ التمرين';
+        exerciseMsg.className = 'text-sm font-medium text-center text-red-600';
+      }
+    }
+
+    function clearExerciseForm() {
+      exerciseStage.value = "";
+      exerciseSubject.value = "";
+      exercisePageNumber.value = "";
+      exerciseTitle.value = "";
+      exerciseSortOrder.value = "";
+      exerciseActive.value = "true";
+      exerciseCode.value = "";
+      exerciseMsg.textContent = "";
+    }
+
+    window.editExercise = async function(id) {
+      const item = exercisesCache.find(e => e.id === id);
+      if (!item) return;
+
+      exerciseKgSelect.value = item.kindergartenId || "";
+      exerciseStage.value = item.stage || "";
+      exerciseSubject.value = item.subject || "";
+      exercisePageNumber.value = item.pageNumber || "";
+      exerciseTitle.value = item.title || "";
+      exerciseSortOrder.value = item.sortOrder || "";
+      exerciseActive.value = item.isActive ? "true" : "false";
+      exerciseCode.value = item.code || "";
+
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.querySelector('[data-tab="exercises"]').classList.add('active');
+      document.getElementById('tab-exercises').classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.deleteExercise = async function(id) {
+      if (!confirm('هل تريد حذف التمرين؟')) return;
+      try {
+        await deleteDoc(doc(db, "interactive_exercises", id));
+        await loadExercises();
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
     window.toggleKindergarten = async function(id, nextValue) {
       try {
